@@ -15,7 +15,7 @@ let urlDB;
 if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/asistencia';
 } else {
-    urlDB = 'mongodb://asistencia-user:d3velopers@ds231643.mlab.com:31643/asistencia';
+    urlDB = process.env.MONGO_URI;
 }
 
 process.env.URLDB = urlDB;
