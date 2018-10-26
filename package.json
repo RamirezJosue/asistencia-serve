@@ -1,14 +1,14 @@
 {
   "name": "asistencia-serve",
   "version": "1.0.0",
-  "description": "Para llamar asistencia alos alumnos",
+  "description": "Para llamar asistencia ",
   "main": "index.js",
   "dependencies": {
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mongoose": "^5.3.6",
     "mongoose-unique-validator": "^2.0.2",
+    "mongoose": "^5.3.6",
     "underscore": "^1.9.1"
   },
   "devDependencies": {},
@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/RamirezJosue/asistencia-serve.git"
   },
-  "author": "Josue",
+  "author": "Josue Ramirez Yugra",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RamirezJosue/asistencia-serve/issues"
