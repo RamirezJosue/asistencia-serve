@@ -10,6 +10,7 @@ let Schema = mongoose.Schema;
 let usuarioSchema = new Schema({
     user: { type: String, unique: true, required: [true, 'El usuario es necesario'] },
     clave: { type: String, required: [true, 'El clave es necesario'] },
+    img: { type: String, required: false },
     role: { type: String, default: 'USER_ROLE', enum: rolesValidos },
     estado: { type: Boolean, default: true }
 });

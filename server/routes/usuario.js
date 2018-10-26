@@ -11,7 +11,7 @@ app.get('/usuario', function(req, res) {
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Usuario.find({ estado: true }, 'user role estado')
+    Usuario.find({ estado: true }, 'user role estado img')
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
@@ -58,7 +58,7 @@ app.post('/usuario', function(req, res) {
 
 app.put('/usuario/:id', function(req, res) {
     let id = req.params.id;
-    let body = _.pick(req.body, ['role', 'estado']);
+    let body = _.pick(req.body, ['role', 'user', 'estado', 'img']);
 
     Usuario.findByIdAndUpdate(id, body, { new: true }, (err, usuarioDB) => {
         if (err) {
