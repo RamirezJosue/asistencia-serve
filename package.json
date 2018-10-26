@@ -1,20 +1,28 @@
 {
-    "name": "asistencia-serve",
-    "version": "1.0.0",
-    "description": "para controlor asistencia mendia codigo QR",
-    "main": "index.js",
-    "scripts": {
-        "start": "node server/server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "bcrypt": "^3.0.2",
-        "body-parser": "^1.18.3",
-        "express": "^4.16.4",
-        "mongoose": "^5.3.6",
-        "mongoose-unique-validator": "^2.0.2",
-        "underscore": "^1.9.1"
-    }
+  "name": "asistencia-serve",
+  "version": "1.0.0",
+  "description": "Para llamar asistencia alos alumnos",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.6",
+    "mongoose-unique-validator": "^2.0.2",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamirezJosue/asistencia-serve.git"
+  },
+  "author": "Josue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RamirezJosue/asistencia-serve/issues"
+  },
+  "homepage": "https://github.com/RamirezJosue/asistencia-serve#readme"
 }
