@@ -12,6 +12,7 @@ let usuarioSchema = new Schema({
     clave: { type: String, required: [true, 'El clave es necesario'] },
     img: { type: String, required: false },
     role: { type: String, default: 'USER_ROLE', enum: rolesValidos },
+    persona: { type: Schema.Types.ObjectId, ref: 'Persona', required: true },
     estado: { type: Boolean, default: true }
 });
 

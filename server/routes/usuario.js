@@ -22,6 +22,7 @@ app.get('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
     Usuario.find({ estado: true }, 'user role estado img')
         .skip(desde)
         .limit(limite)
+        .populate('persona')
         .exec((err, usuarios) => {
             if (err) {
                 return res.status(400).json({
@@ -45,7 +46,8 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
     let usuario = new Usuario({
         user: body.user,
         clave: bcrypt.hashSync(body.clave, 10),
-        role: body.role
+        role: body.role,
+        persona: body.persona
     });
 
     usuario.save((err, usuarioDB) => {
@@ -66,7 +68,7 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 
 app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ['role', 'user', 'estado', 'img']);
+    let body = _.pick(req.body, ['role', 'user', 'estado', 'img', 'persona']);
 
     Usuario.findByIdAndUpdate(id, body, { new: true }, (err, usuarioDB) => {
         if (err) {
