@@ -4,7 +4,7 @@ const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticac
 const app = express();
 
 
-app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.get('/persona', (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -30,6 +30,42 @@ app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
             })
         });
 });
+
+
+//  Obtener un persona por ID
+app.get('/persona/:id', (req, res) => {
+
+    let id = req.params.id;
+
+    Persona.findById(id)
+        .exec((err, personaDB) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!personaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'ID no existe'
+                    }
+                });
+            }
+
+            res.json({
+                ok: true,
+                persona: personaDB
+            });
+
+        });
+
+});
+
+
 
 app.post('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
     let body = req.body;
