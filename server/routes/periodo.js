@@ -31,6 +31,7 @@ app.get('/periodo', [verificaToken, verificaAdmin_Role], (req, res) => {
         });
 });
 
+
 app.post('/periodo',[verificaToken, verificaAdmin_Role], (req, res) => {
     let body = req.body;
     let periodo = new Periodo({
@@ -54,4 +55,47 @@ app.post('/periodo',[verificaToken, verificaAdmin_Role], (req, res) => {
 });
 
 
+app.put('/periodo/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+
+    let id = req.params.id;
+    let body = req.body;
+
+    Periodo.findById(id, (err, periodoDB) => {
+
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!periodoDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'El ID no existe'
+                }
+            });
+        }
+
+        periodoDB.periodo = body.periodo;
+        periodoDB.fechaFin = body.fechaFin;
+
+
+        periodoDB.save((err, periodoGuardado) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            res.json({
+                ok: true,
+                periodo: periodoGuardado
+            });
+        });
+    });
+});
 module.exports = app;
