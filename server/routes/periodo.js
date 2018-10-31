@@ -98,4 +98,30 @@ app.put('/periodo/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
         });
     });
 });
+
+app.delete('/periodo/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+    let id = req.params.id;
+
+    Periodo.findByIdAndRemove(id, (err, periodoDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+        if (!periodoDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'El id no existe'
+                }
+            });
+        }
+        res.json({
+            ok: true,
+            message: 'Periodo Borrado'
+        })
+    });
+});
+
 module.exports = app;
