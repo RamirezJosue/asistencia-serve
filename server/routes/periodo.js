@@ -31,6 +31,39 @@ app.get('/periodo', [verificaToken, verificaAdmin_Role], (req, res) => {
         });
 });
 
+//  Obtener un periodo por ID
+app.get('/periodo/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+
+    let id = req.params.id;
+
+    Periodo.findById(id)
+        .exec((err, periodoDB) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!periodoDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'ID no existe'
+                    }
+                });
+            }
+
+            res.json({
+                ok: true,
+                periodo: periodoDB
+            });
+
+        });
+
+});
+
 
 app.post('/periodo',[verificaToken, verificaAdmin_Role], (req, res) => {
     let body = req.body;
