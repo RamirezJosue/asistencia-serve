@@ -31,7 +31,7 @@ app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
         });
 });
 
-app.post('/persona', [verificaToken, verificaAdmin_Role],  (req, res) => {
+app.post('/persona', (req, res) => {
     let body = req.body;
     let persona = new Persona({
         nombres: body.nombres,
