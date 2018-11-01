@@ -10,5 +10,6 @@ app.use(require('./persona'));
 app.use(require('./periodo'));
 app.use(require('./imagenes'));
 app.use(require('./asistencia'));
+app.use(require('./eventoprogramado'));
 
 module.exports = app;
