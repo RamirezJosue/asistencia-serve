@@ -9,5 +9,6 @@ app.use(require('./login'));
 app.use(require('./persona'));
 app.use(require('./periodo'));
 app.use(require('./imagenes'));
+app.use(require('./asistencia'));
 
 module.exports = app;
