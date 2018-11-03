@@ -5,14 +5,14 @@ const jwt = require('jsonwebtoken');
 // ========================
 
 let verificaToken = (req, res, next) => {
-    let Authorization = req.get('Authorization');
+    let token = req.get('token');
 
-    jwt.verify(Authorization, process.env.SEED, (err, decoded) => {
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
         if (err) {
             return res.status(401).json({
                 ok: false,
                 err: {
-                    message: "Authorization invalido"
+                    message: "token invalido"
                 }
             });
         }

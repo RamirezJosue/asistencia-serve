@@ -31,7 +31,41 @@ app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
         });
 });
 
-app.post('/persona', (req, res) => {
+//  Obtener un persona por ID
+app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+
+    let id = req.params.id;
+
+    Persona.findById(id)
+        .exec((err, personaDB) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!personaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'ID no existe'
+                    }
+                });
+            }
+
+            res.json({
+                ok: true,
+                persona: personaDB
+            });
+
+        });
+
+});
+
+
+app.post('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
     let body = req.body;
     let persona = new Persona({
         nombres: body.nombres,
