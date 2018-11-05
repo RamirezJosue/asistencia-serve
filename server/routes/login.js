@@ -41,7 +41,8 @@ app.post('/login', (req, res) => {
 
             res.json({
                 ok: true,
-                Usuario: usuarioDB,
+                usuario: usuarioDB,
+                id: usuarioDB._id,
                 token
             });
         });
