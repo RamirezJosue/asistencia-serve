@@ -4,7 +4,7 @@ const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticac
 const app = express();
 
 
-app.get('/persona', (req, res) => {
+app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
     let pageIndex = req.query.pageIndex || 0;
     let pageSize = req.query.pageSize || 0;
     Persona.find({}, 'nombres apellidos dnicodigo email numerocelular')
