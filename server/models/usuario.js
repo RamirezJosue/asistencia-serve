@@ -8,12 +8,14 @@ let rolesValidos = {
 let Schema = mongoose.Schema;
 
 let usuarioSchema = new Schema({
-    user: { type: String, unique: true, required: [true, 'El usuario es necesario'] },
+    usuario: { type: String, unique: true, required: [true, 'El usuario es necesario'] },
+    correo: { type: String, unique: true, required: [true, 'Correo es necesario'] },
     clave: { type: String, required: [true, 'El clave es necesario'] },
     img: { type: String, required: false },
     role: { type: String, default: 'USER_ROLE', enum: rolesValidos },
     persona: { type: Schema.Types.ObjectId, ref: 'Persona', required: true },
-    estado: { type: Boolean, default: true }
+    estado: { type: Boolean, default: true },
+    creado: { type: Date, required: true, default: Date.now }
 });
 
 usuarioSchema.methods.toJSON = function() {

@@ -19,7 +19,7 @@ app.get('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Usuario.find({ estado: true }, 'user role estado img')
+    Usuario.find({ estado: true }, 'usuario role estado img')
         .skip(desde)
         .limit(limite)
         .populate('persona')
@@ -44,7 +44,8 @@ app.get('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
     let body = req.body;
     let usuario = new Usuario({
-        user: body.user,
+        usuario: body.usuario,
+        correo: body.correo,
         clave: bcrypt.hashSync(body.clave, 10),
         role: body.role,
         persona: body.persona
@@ -68,7 +69,7 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 
 app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ['role', 'user', 'estado', 'img', 'persona']);
+    let body = _.pick(req.body, ['role', 'usuario', 'estado', 'creado', 'img', 'persona']);
 
     Usuario.findByIdAndUpdate(id, body, { new: true }, (err, usuarioDB) => {
         if (err) {

@@ -6,9 +6,9 @@ var Schema = mongoose.Schema;
 var personaSchema = new Schema({
     nombres: { type: String, required: [true, 'El nombre es necesario'] },
     apellidos: { type: String, required: [true, 'El apellido es necesario'] },
-    dnicodigo: { type: String, unique: true, required: [true, 'El Dni o Codigo es necesario'] },
-    email: { type: String, required: [true, 'Email es necesario'] },
-    numerocelular: { type: String, required: [true, 'Numero de celular es necesario'] }
+    dni: { type: String, unique: true, required: [true, 'El Dni es necesario'] },
+    codigo: { type: String, unique: true, required: false },
+    celular: { type: String, required: [true, 'Numero de celular es necesario'] }
 });
 
 personaSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser unico' });

@@ -4,13 +4,13 @@ const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticac
 const app = express();
 
 
-app.get('/persona', (req, res) => {
+app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Persona.find({}, 'nombres apellidos dnicodigo email numerocelular')
+    Persona.find({}, 'nombres apellidos dni codigo celular')
         .skip(desde)
         .limit(limite)
         .exec((err, personas) => {
@@ -70,9 +70,10 @@ app.post('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
     let persona = new Persona({
         nombres: body.nombres,
         apellidos: body.apellidos,
-        dnicodigo: body.dnicodigo,
+        codigo: body.codigo,
+        dni: body.dni,
         email: body.email,
-        numerocelular: body.numerocelular
+        celular: body.celular
     });
 
     persona.save((err, personaDB) => {
@@ -114,9 +115,9 @@ app.put('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
         personaDB.nombres = body.nombres;
         personaDB.apellidos = body.apellidos;
-        personaDB.dnicodigo = body.dnicodigo;
-        personaDB.email = body.email;
-        personaDB.numerocelular = body.numerocelular;
+        personaDB.codigo = body.codigo;
+        personaDB.dni = body.dni;
+        personaDB.celular = body.celular;
 
         personaDB.save((err, personaGuardado) => {
 
