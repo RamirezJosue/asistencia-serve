@@ -8,7 +8,7 @@ const app = express();
 app.post('/login', (req, res) => {
 
     let body = req.body;
-    Usuario.findOne({ user: body.user })
+    Usuario.findOne({ usuario: body.usuario })
         .populate('persona')
         .exec(function(err, usuarioDB) {
             if (err) {
