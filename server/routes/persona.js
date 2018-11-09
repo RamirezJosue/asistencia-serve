@@ -5,14 +5,11 @@ const app = express();
 
 
 app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
-
-    let desde = req.query.desde || 0;
-    desde = Number(desde);
-    let limite = req.query.limite || 5;
-    limite = Number(limite);
+    let pageIndex = req.query.pageIndex || 0;
+    let pageSize = req.query.pageSize || 0;
     Persona.find({}, 'nombres apellidos dni codigo celular')
-        .skip(desde)
-        .limit(limite)
+        .skip(Number(pageIndex))
+        .limit(Number(pageSize))
         .exec((err, personas) => {
             if (err) {
                 return res.status(400).json({
@@ -20,13 +17,12 @@ app.get('/persona', [verificaToken, verificaAdmin_Role], (req, res) => {
                     err
                 });
             }
-            Persona.count((err, conteo) => {
+            Persona.count((err, length) => {
                 res.json({
                     ok: true,
                     personas,
-                    cuantos: conteo
+                    length
                 });
-
             })
         });
 });
