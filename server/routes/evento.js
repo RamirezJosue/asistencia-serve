@@ -1,40 +1,39 @@
 const express = require('express');
-var qr = require('qr-image');
-const Persona = require('../models/persona');
+const Evento = require('../models/evento');
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion')
 const app = express();
 
 
-app.get('/persona', (req, res) => {
+app.get('/evento', [verificaToken, verificaAdmin_Role], (req, res) => {
     let pageIndex = req.query.pageIndex || 0;
     let pageSize = req.query.pageSize || 0;
-    Persona.find({}, 'nombres apellidos dni codigo celular')
+    Evento.find({}, 'nombre nombre_corto facultad')
         .skip(Number(pageIndex))
         .limit(Number(pageSize))
-        .exec((err, personas) => {
+        .exec((err, eventos) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
                     err
                 });
             }
-            Persona.count((err, length) => {
+            Evento.count((err, length) => {
                 res.json({
                     ok: true,
-                    personas,
+                    eventos,
                     length
                 });
             })
         });
 });
 
-//  Obtener un persona por ID
-app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+//  Obtener un evento por ID
+app.get('/evento/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
 
-    Persona.findById(id)
-        .exec((err, personaDB) => {
+    Evento.findById(id)
+        .exec((err, eventoDB) => {
 
             if (err) {
                 return res.status(500).json({
@@ -43,7 +42,7 @@ app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
                 });
             }
 
-            if (!personaDB) {
+            if (!eventoDB) {
                 return res.status(400).json({
                     ok: false,
                     err: {
@@ -54,7 +53,7 @@ app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
             res.json({
                 ok: true,
-                persona: personaDB
+                evento: eventoDB
             });
 
         });
@@ -62,23 +61,15 @@ app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 });
 
 
-app.post('/persona',(req, res) => {
+app.post('/evento', [verificaToken, verificaAdmin_Role], (req, res) => {
     let body = req.body;
-    let persona = new Persona({
-        nombres: body.nombres,
-        apellidos: body.apellidos,
-        codigo: body.codigo,
-        dni: body.dni,
-        email: body.email,
-        celular: body.celular
+    let evento = new Evento({
+        nombres: body.nombre,
+        nombre_corto: body.nombre_corto,
+        facultad: body.facultad
     });
 
-    var qr_img = qr.image(body.codigo, { type: 'png' });
-    var img_name = body.codigo+".png";
-
-    persona.qr_imagen = qr_img.pipe(require('fs').createWriteStream(img_name));
-
-    persona.save((err, personaDB) => {
+    evento.save((err, eventoDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -87,17 +78,17 @@ app.post('/persona',(req, res) => {
         }
         res.json({
             ok: true,
-            persona: personaDB
+            evento: eventoDB
         });
     });
 });
 
-app.put('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.put('/evento/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
     let body = req.body;
 
-    Persona.findById(id, (err, personaDB) => {
+    Evento.findById(id, (err, eventoDB) => {
 
         if (err) {
             return res.status(500).json({
@@ -106,7 +97,7 @@ app.put('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
             });
         }
 
-        if (!personaDB) {
+        if (!eventoDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -115,13 +106,11 @@ app.put('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
             });
         }
 
-        personaDB.nombres = body.nombres;
-        personaDB.apellidos = body.apellidos;
-        personaDB.codigo = body.codigo;
-        personaDB.dni = body.dni;
-        personaDB.celular = body.celular;
+        eventoDB.nombre = body.nombre;
+        eventoDB.nombre_corto = body.nombre_corto;
+        eventoDB.facultad = body.facultad;
 
-        personaDB.save((err, personaGuardado) => {
+        eventoDB.save((err, eventoGuardado) => {
 
             if (err) {
                 return res.status(500).json({
@@ -132,23 +121,23 @@ app.put('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
             res.json({
                 ok: true,
-                persona: personaGuardado
+                evento: eventoGuardado
             });
         });
     });
 });
 
-app.delete('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.delete('/evento/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let id = req.params.id;
 
-    Persona.findByIdAndRemove(id, (err, personaDB) => {
+    Evento.findByIdAndRemove(id, (err, eventoDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
                 err
             });
         }
-        if (!personaDB) {
+        if (!eventoDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -158,7 +147,7 @@ app.delete('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
         }
         res.json({
             ok: true,
-            message: 'Persona Borrada'
+            message: 'Evento Borrada'
         })
     });
 });

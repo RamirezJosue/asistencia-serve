@@ -7,6 +7,7 @@ var personaSchema = new Schema({
     nombres: { type: String, required: [true, 'El nombre es necesario'] },
     apellidos: { type: String, required: [true, 'El apellido es necesario'] },
     dni: { type: String, unique: true, required: [true, 'El Dni es necesario'] },
+    qr_imagen: { type: String, required: false },
     codigo: { type: String, unique: true, required: false },
     celular: { type: String, required: [true, 'Numero de celular es necesario'] }
 });
