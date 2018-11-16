@@ -10,7 +10,9 @@ app.use(require('./persona'));
 // app.use(require('./periodo'));
 app.use(require('./imagenes'));
 app.use(require('./ciclo'));
+app.use(require('./facultad'));
 app.use(require('./escuela'));
+app.use(require('./matricula'));
 // app.use(require('./asistencia'));
 // app.use(require('./eventoprogramado'));
 
