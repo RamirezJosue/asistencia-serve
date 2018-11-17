@@ -1,9 +1,11 @@
 const express = require('express');
 var qr = require('qr-image');
 const Persona = require('../models/persona');
+const fileUpload = require('express-fileupload');
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion')
 const app = express();
 
+app.use(fileUpload());
 
 app.get('/persona', (req, res) => {
     let pageIndex = req.query.pageIndex || 0;
@@ -62,7 +64,7 @@ app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 });
 
 
-app.post('/persona',(req, res) => {
+app.post('/persona', (req, res) => {
     let body = req.body;
     let persona = new Persona({
         nombres: body.nombres,
@@ -74,9 +76,20 @@ app.post('/persona',(req, res) => {
     });
 
     var qr_img = qr.image(body.codigo, { type: 'png' });
-    var img_name = body.codigo+".png";
+    var img_name = body.codigo + ".png";
 
-    persona.qr_imagen = qr_img.pipe(require('fs').createWriteStream(img_name));
+    qr_img.pipe(require('fs').createWriteStream(img_name));
+    persona.qr_imagen = img_name;
+    console.log(persona.qr_imagen);
+
+    // archivo.mv('uploads/' + img_name, (err) => {
+    //     if (err) {
+    //         return res.status(500).json({
+    //             ok: false,
+    //             message: 'Imagen no subida'
+    //         })
+    //     }
+    // });
 
     persona.save((err, personaDB) => {
         if (err) {
