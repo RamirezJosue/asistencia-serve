@@ -10,7 +10,7 @@ app.get('/asistencia', (req, res) => {
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Asistencia.find({}, 'codigo nombres fechahora ofline idUsuario idAlumnoMatricula idEventoprogramado')
+    Asistencia.find({}, 'nombres creado_por asistencia evento fecha')
         .skip(desde)
         .limit(limite)
         .exec((err, asistencias) => {
@@ -67,16 +67,16 @@ app.get('/asistencia/:id', (req, res) => {
 
 
 
-app.post('/asistencia', [verificaToken], (req, res) => {
+app.post('/asistencia', (req, res) => {
     let body = req.body;
+    console.log('holaaaaaaaaaaaaaaaaaa');
+
     let asistencia = new Asistencia({
-        codigo: body.codigo,
         nombres: body.nombres,
-        fechahora: body.fechahora,
-        ofline: body.ofline,
-        idUsuario: body.idUsuario,
-        idAlumnoMatricula: body.idAlumnoMatricula,
-        idEventoprogramado: body.idEventoprogramado
+        creado_por: body.creado_por,
+        asistencia: body.asistencia,
+        evento: body.evento,
+        fecha: body.fecha
     });
 
     asistencia.save((err, asistenciaDB) => {
@@ -116,13 +116,11 @@ app.put('/asistencia/:id', [verificaToken], (req, res) => {
             });
         }
 
-        asistenciaDB.codigo = body.codigo;
         asistenciaDB.nombres = body.nombres;
-        asistenciaDB.fechahora = body.fechahora;
-        asistenciaDB.ofline = body.ofline;
-        asistenciaDB.idUsuario = body.idUsuario;
-        asistenciaDB.idAlumnoMatricula = body.idAlumnoMatricula;
-        asistenciaDB.idEventoprogramado = body.idEventoprogramado;
+        asistenciaDB.creado_por = body.creado_por;
+        asistenciaDB.asistencia = body.asistencia;
+        asistenciaDB.evento = body.evento;
+        asistenciaDB.fecha = body.idUsuario;
 
         asistenciaDB.save((err, asistenciaGuardado) => {
 

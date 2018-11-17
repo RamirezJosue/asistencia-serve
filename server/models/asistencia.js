@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 
 
 var asistenciaSchema = new Schema({
-    correo: { type: String, required: [true, 'Correo es necesario'] },
-    creado_por: { type: String, required: [true, 'Es necesario'] },
-    asitencia: { type: Schema.Types.ObjectId, unique: true, ref: 'Asistencia', required: true },
-    evento: { type: Schema.Types.ObjectId, ref: 'Evento', required: true },
+    nombres: { type: String, required: true },
+    creado_por: { type: String, required: false },
+    asistencia: { type: Schema.Types.ObjectId, unique: true, ref: 'Persona', required: [true, 'Las asistencia es obligatorio'] },
+    evento: { type: Schema.Types.ObjectId, ref: 'Evento', required: false },
     fecha: { type: Date, required: true, default: Date.now }
 });
 
