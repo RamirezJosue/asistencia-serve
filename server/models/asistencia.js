@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 
 var asistenciaSchema = new Schema({
-    nombres: { type: String, required: true },
+    nombres: { type: String, required: false },
     creado_por: { type: String, required: false },
     asistencia: { type: Schema.Types.ObjectId, unique: true, ref: 'Persona', required: [true, 'Las asistencia es obligatorio'] },
     evento: { type: Schema.Types.ObjectId, ref: 'Evento', required: false },

@@ -31,7 +31,7 @@ app.get('/persona', (req, res) => {
 });
 
 //  Obtener un persona por ID
-app.get('/persona/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+app.get('/persona/:id', (req, res) => {
 
     let id = req.params.id;
 
