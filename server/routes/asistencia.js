@@ -10,7 +10,7 @@ app.get('/asistencia', (req, res) => {
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
-    Asistencia.find({}, 'nombres creado_por asistencia evento fecha')
+    Asistencia.find({}, 'creado_por asistencia evento fecha')
         .skip(desde)
         .limit(limite)
         .exec((err, asistencias) => {
@@ -72,7 +72,6 @@ app.post('/asistencia', (req, res) => {
     console.log('holaaaaaaaaaaaaaaaaaa');
 
     let asistencia = new Asistencia({
-        nombres: body.nombres,
         creado_por: body.creado_por,
         asistencia: body.asistencia,
         evento: body.evento,
@@ -116,7 +115,6 @@ app.put('/asistencia/:id', [verificaToken], (req, res) => {
             });
         }
 
-        asistenciaDB.nombres = body.nombres;
         asistenciaDB.creado_por = body.creado_por;
         asistenciaDB.asistencia = body.asistencia;
         asistenciaDB.evento = body.evento;
